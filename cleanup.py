@@ -6,7 +6,7 @@ def updateyt():
     check_call(['systemctl','restart','ytdownloader'])
 
 def removefiles():
-    conn = sqlite3.connect('vid.db')
+    conn = sqlite3.connect('/etc/youtubedl/YTDownloaderWebsite/vid.db')
     c = conn.cursor()
     query = 'SELECT * from videos WHERE del = ?;'
     c.execute(query,("true",))
