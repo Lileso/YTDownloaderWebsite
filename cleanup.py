@@ -2,7 +2,7 @@ import sqlite3, os,logging
 from subprocess import check_call
 
 def updateyt():
-    check_call(['pip','install','--upgrade', 'youtube-dl','pafy','flask'])
+    check_call(['/etc/youtubedl/YTDownloaderWebsite/env/bin/pip','install','--upgrade', 'youtube-dl','pafy','flask'])
     check_call(['systemctl','restart','ytdownloader'])
 
 def removefiles():
