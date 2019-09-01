@@ -120,51 +120,63 @@
     }
 
     function send_data() {
-        toggle_modal();
         var sendJSON = {};
-        sendJSON["url"] = document.getElementById("yt_link").value;
-        {% if advanced %}
-        if (document.getElementById("low_quality").checked === false) {
-            sendJSON["quality"] = "high";
-        } else {
-            sendJSON["quality"] = "low";
-        }
-        {% else %}
-        sendJSON["quality"] = "low";
-        {% endif %}
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/downloads", true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(sendJSON));
 
-        xhr.onload = function () {
-            var result = JSON.parse(this.responseText);
-            if (result["error"] === 0) {
+        txt = document.getElementById("yt_link").value;
+        matches = txt.match('^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+$')
+        console.log(matches)
+        if (matches !== null) {
+            if (matches[0] === document.getElementById("yt_link").value) {
                 toggle_modal();
-                fetch("/files/" + result["video_url"])
-                    .then(resp => resp.blob())
-                    .then(blob => {
-                        const url = window.URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.style.display = 'none';
-                        a.href = url;
-                        a.download = result["filename"];
-                        document.body.appendChild(a);
-                        a.click();
-                        window.URL.revokeObjectURL(url);
-                        alert_snack('Download Complete!');
-                    })
-                    .catch(() => alert_snack('Error!!!!! Error!!!'));
+                sendJSON["url"] = document.getElementById("yt_link").value;
+                {% if advanced %}
+                if (document.getElementById("low_quality").checked === false) {
+                    sendJSON["quality"] = "high";
+                } else {
+                    sendJSON["quality"] = "low";
+                }
+                {% else %}
+                sendJSON["quality"] = "low";
+                {% endif %}
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/downloads", true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify(sendJSON));
 
-            } else {
-                toggle_modal();
-                var notification = document.querySelector('.mdl-js-snackbar');
-                notification.MaterialSnackbar.showSnackbar(
-                    {
-                        message: result["error_details"]
+                xhr.onload = function () {
+                    var result = JSON.parse(this.responseText);
+                    if (result["error"] === 0) {
+                        toggle_modal();
+                        fetch("/files/" + result["video_url"])
+                            .then(resp => resp.blob())
+                            .then(blob => {
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.style.display = 'none';
+                                a.href = url;
+                                a.download = result["filename"];
+                                document.body.appendChild(a);
+                                a.click();
+                                window.URL.revokeObjectURL(url);
+                                alert_snack('Download Complete!');
+                            })
+                            .catch(() => alert_snack('Error!!!!! Error!!!'));
+
+                    } else {
+                        toggle_modal();
+                        var notification = document.querySelector('.mdl-js-snackbar');
+                        notification.MaterialSnackbar.showSnackbar(
+                            {
+                                message: result["error_details"]
+                            }
+                        );
                     }
-                );
+                }
+            } else {
+                alert_snack("Invalid YouTube Link!");
             }
+        } else {
+            alert_snack("Invalid YouTube Link!");
         }
     }
 
