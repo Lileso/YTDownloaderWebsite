@@ -141,7 +141,7 @@
             var result = JSON.parse(this.responseText);
             if (result["error"] === 0) {
                 toggle_modal();
-                var downloading = browser.downloads.download({
+                var downloading = downloads.download({
                     url: "/files/" + result["video_url"],
                     filename : result["filename"],
                     conflictAction: 'uniquify'
