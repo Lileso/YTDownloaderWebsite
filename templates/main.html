@@ -141,12 +141,21 @@
             var result = JSON.parse(this.responseText);
             if (result["error"] === 0) {
                 toggle_modal();
-                var downloading = downloads.download({
-                    url: "/files/" + result["video_url"],
-                    filename : result["filename"],
-                    conflictAction: 'uniquify'
-                });
-                downloading.then(onStartedDownload, onFailed);
+                fetch("/files/" + result["video_url"])
+                    .then(resp => resp.blob())
+                    .then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.style.display = 'none';
+                        a.href = url;
+                        a.download = result["filename"];
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        alert_snack('Download Complete!');
+                    })
+                    .catch(() => alert_snack('Error!!!!! Error!!!'));
+
             } else {
                 toggle_modal();
                 var notification = document.querySelector('.mdl-js-snackbar');
@@ -159,20 +168,14 @@
         }
     }
 
-    function onStartedDownload(id) {
-        var notification = document.querySelector('.mdl-js-snackbar');
-        notification.MaterialSnackbar.showSnackbar(
-            {
-                message: "Download Starting"
-            });
-    }
 
-    function onFailed(error) {
+    function alert_snack(alert) {
         var notification = document.querySelector('.mdl-js-snackbar');
         notification.MaterialSnackbar.showSnackbar(
             {
-                message: "Download Error"
-            });
+                message: alert
+            }
+        );
     }
 </script>
 
