@@ -62,7 +62,6 @@
                 <input class="mdl-textfield__input" type="text" id="yt_link">
                 <label class="mdl-textfield__label" for="yt_link">YouTube Link...</label>
             </div>
-
             <br>
             <br>
             {% if advanced %}
@@ -89,7 +88,7 @@
         <div style="width: 200px; height: 200px; display: flex; margin-left: 50px; margin-right: 50px;">
             <div class="mdl-spinner mdl-js-spinner is-active" style="margin: auto; width: 70px; height: 70px;"></div>
         </div>
-        
+
         <div style="width: 300px; height: 100px; display: flex;">
             <h2 class="mdl-card__title-text" style="margin: auto;">Preparing your Video</h2>
         </div>
@@ -120,12 +119,12 @@
         }
     }
 
-    function send_data(){
+    function send_data() {
         toggle_modal();
         var sendJSON = {};
         sendJSON["url"] = document.getElementById("yt_link").value;
         {% if advanced %}
-        if ( document.getElementById("low_quality").checked === false ){
+        if (document.getElementById("low_quality").checked === false) {
             sendJSON["quality"] = "high";
         } else {
             sendJSON["quality"] = "low";
@@ -138,30 +137,43 @@
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(sendJSON));
 
-        xhr.onload = function() {
-            console.log(this.responseText)
+        xhr.onload = function () {
             var result = JSON.parse(this.responseText);
-            if ( result["error"] === 0 ){
+            if (result["error"] === 0) {
                 toggle_modal();
-                var notification = document.querySelector('.mdl-js-snackbar');
-                notification.MaterialSnackbar.showSnackbar(
-                {
-                    message: "Video Downloaded"
-                }
-                );
-                window.open("/files/"+result["video_url"], target="_blank");
+                var downloading = browser.downloads.download({
+                    url: "/files/" + result["video_url"],
+                    filename : result["filename"],
+                    conflictAction: 'uniquify'
+                });
+                downloading.then(onStartedDownload, onFailed);
             } else {
                 toggle_modal();
                 var notification = document.querySelector('.mdl-js-snackbar');
                 notification.MaterialSnackbar.showSnackbar(
-                {
-                    message: result["error_details"]
-                }
+                    {
+                        message: result["error_details"]
+                    }
                 );
             }
         }
     }
 
+    function onStartedDownload(id) {
+        var notification = document.querySelector('.mdl-js-snackbar');
+        notification.MaterialSnackbar.showSnackbar(
+            {
+                message: "Download Starting"
+            });
+    }
+
+    function onFailed(error) {
+        var notification = document.querySelector('.mdl-js-snackbar');
+        notification.MaterialSnackbar.showSnackbar(
+            {
+                message: "Download Error"
+            });
+    }
 </script>
 
 </html>

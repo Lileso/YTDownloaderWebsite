@@ -23,7 +23,7 @@ def download_low_quality(url):
         c.execute(query,(data[0],))
         conn.commit()
         conn.close()
-        return data[0]
+        return data[0], data[1]
     else:
         best.download(filepath="static/")
         vidid = secrets.token_hex(15)
@@ -31,7 +31,7 @@ def download_low_quality(url):
         c.execute(query,(vidid, vid))
         conn.commit()
         conn.close()
-        return vidid
+        return vidid, vid
 
 app = Flask(__name__)
 @app.route("/", methods=['GET'])
@@ -43,9 +43,9 @@ def js():
     data = request.json
     if "quality" in data:
         if data['quality']=="low":
-            video = download_low_quality(data['url'])
+            vidurl, video = download_low_quality(data['url'])
             if video != None:
-                return jsonify({"error":0,"video_url":video})
+                return jsonify({"error":0,"video_url":vidurl,"filename":video})
             else:
                 return jsonify({"error":1, "error_details":"A problem occured downloading this video"})
         else:
