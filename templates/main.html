@@ -1,0 +1,39 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/styling.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="/static/script/scripts.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="text-center">Youtube Downloader</h1>
+            {%if youtubelink == False%}
+            <h3>Please enter a valid youtube link</h3>
+            {%endif%}
+            <form action='/' method ="POST">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Youtube video link" value="" name="YT_URL"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btnSubmit" value="Login" />
+                </div>
+                <div class="modal fade" id="loading" data-backdrop="false">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-body text-center">
+                                <div class="loader"></div>
+                                <div class="loader-txt">
+                                    <p>Getting the video ready downloading...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
