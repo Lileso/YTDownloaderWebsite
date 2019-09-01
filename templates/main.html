@@ -146,7 +146,6 @@
                 xhr.onload = function () {
                     var result = JSON.parse(this.responseText);
                     if (result["error"] === 0) {
-                        toggle_modal();
                         fetch("/files/" + result["video_url"])
                             .then(resp => resp.blob())
                             .then(blob => {
@@ -158,6 +157,7 @@
                                 document.body.appendChild(a);
                                 a.click();
                                 window.URL.revokeObjectURL(url);
+                                toggle_modal();
                                 alert_snack('Download Complete!');
                             })
                             .catch(() => alert_snack('Error!!!!! Error!!!'));
