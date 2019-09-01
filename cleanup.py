@@ -1,4 +1,4 @@
-import sqlite3, os
+import sqlite3, os,logging
 from subprocess import check_call
 
 def updateyt():
@@ -18,6 +18,11 @@ def removefiles():
         c.execute(query,(x[0],))
     conn.commit()
     conn.close()
-
+LOG_FILE = "/etc/youtubedl/YTDownloaderWebsite/cleanup.log"
+logging.basicConfig(level=logging.INFO, filemode='a', format='%(asctime)s, %(message)s', datefmt='%Y-%m-%d %H:%M:%S', filename=LOG_FILE)
+logging.info("Updating python packages")
 updateyt()
+logging.info("Python packages updated")
+logging.info("Removing video files")
 removefiles()
+logging.info("Video files removed")
