@@ -13,6 +13,8 @@ def removefiles():
     data = c.fetchall()
     for x in data:
         filename =  x[1]
+        os.remove(f'/etc/youtubedl/YTDownloaderWebsite/static/aud/*')
+        os.remove(f'/etc/youtubedl/YTDownloaderWebsite/static/vid/*')
         os.remove(f'/etc/youtubedl/YTDownloaderWebsite/static/{filename}')   
         query = 'DELETE FROM videos WHERE id =?;'
         c.execute(query,(x[0],))
