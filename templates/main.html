@@ -75,6 +75,10 @@
             </label>
             <br>
             <br>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="mp3">
+                <input type="radio" id="high_quality" class="mdl-radio__button" name="options" value="high">
+                <span class="mdl-radio__label">Audio Only (mp3)</span>
+            </label>
             {% endif %}
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
                 onclick="send_data()">
@@ -130,10 +134,12 @@
                 toggle_modal();
                 sendJSON["url"] = document.getElementById("yt_link").value;
                 {% if advanced %}
-                if (document.getElementById("low_quality").checked === false) {
-                    sendJSON["quality"] = "high";
-                } else {
+                if (document.getElementById("low_quality").checked === true) {
                     sendJSON["quality"] = "low";
+                } else if (document.getElementById("high_quality").checked === true){
+                    sendJSON["quality"] = "high";
+                } else if (document.getElementById("mp3").checked === true){
+                    sendJSON["quality"] = "mp3";
                 }
                 {% else %}
                 sendJSON["quality"] = "low";
