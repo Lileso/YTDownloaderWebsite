@@ -63,15 +63,13 @@ def download_high_quality(url):
             joined = ffmpeg.concat(v1, a2, v=1, a=1).node
             v3 = joined[0]
             a3 = joined[1]
-            out = ffmpeg.output(v3, a3, vid)
+            out = ffmpeg.output(v3, a3, f"static/{vid}", format='mp3', acodec='libmp3lame', ac=2)
             out.run()
         except ffmpeg.Error as e:
             print(e.stderr)
     os.remove(f'/etc/youtubedl/YTDownloaderWebsite/static/aud/{audio}')
     os.remove(f'/etc/youtubedl/YTDownloaderWebsite/static/vid/{vid}')
     return vidid, vid
-        
-
 
 def download_audio_only(url):
     conn = sqlite3.connect('vid.db')
