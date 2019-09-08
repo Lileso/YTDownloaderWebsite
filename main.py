@@ -67,6 +67,8 @@ def download_high_quality(url):
             out.run()
         except ffmpeg.Error as e:
             print(e.stderr)
+    os.remove(f'/etc/youtubedl/YTDownloaderWebsite/static/aud/{audio}')
+    os.remove(f'/etc/youtubedl/YTDownloaderWebsite/static/vid/{vid}')
     return vidid, vid
         
 
