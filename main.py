@@ -108,7 +108,7 @@ def download_audio_only(url):
 app = Flask(__name__)
 @app.route("/", methods=['GET'])
 def main():
-    return render_template("main.html", advanced=True)
+    return render_template("main.html")
 
 @app.route("/downloads", methods=['POST'])
 def js():    
