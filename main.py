@@ -53,7 +53,7 @@ def download_high_quality(url):
         return data[0], data[1]
     else:
         vidid = secrets.token_hex(15)
-        vid.download('static/vid')
+        bestvid.download('static/vid')
         aud.download('static/aud')
         try:
             in1 = ffmpeg.input('static/vid/'+vid)
