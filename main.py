@@ -156,5 +156,5 @@ def vidfile(fileid):
 if __name__ == '__main__':
     createdatabase()
     app.secret_key = os.urandom(1000)
-    #app.run(host='0.0.0.0', port=5050, debug = True,)
-    waitress.serve(app,port=5050)
+    app.run(host='0.0.0.0', port=5050, debug = True,)
+    #waitress.serve(app,port=5050)
