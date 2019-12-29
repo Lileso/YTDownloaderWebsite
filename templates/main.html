@@ -155,11 +155,13 @@
                             .then(resp => resp.blob())
                             .then(blob => {
                                 var url = window.URL.createObjectURL(blob);
+                                console.log("Initial url Object Made")
                                 if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                                    console.log("window.navigator && window.navigator.msSaveOrOpenBlob returned true")
                                     var fileName = escapeHtml(result["filename"]);
+                                    console.log("defined filename")
                                     window.navigator.msSaveOrOpenBlob(blob, fileName);
-                                } else {
-                                    var url = URL.createObjectURL(blob);
+                                    console.log("Open Dialoge")
                                 }
                                 const a = document.createElement('a');
                                 a.style.display = 'none';
