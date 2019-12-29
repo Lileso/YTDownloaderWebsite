@@ -13,7 +13,10 @@ def removefiles():
     data = c.fetchall()
     for x in data:
         filename =  x[1]
-        os.remove(f'/etc/youtubedl/YTDownloaderWebsite/static/{filename}')   
+        try:
+            os.remove(f'/etc/youtubedl/YTDownloaderWebsite/static/{filename}')   
+        except:
+            logging.info("file deleted removing from db")
         query = 'DELETE FROM videos WHERE id =?;'
         c.execute(query,(x[0],))
     conn.commit()
