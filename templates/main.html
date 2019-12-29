@@ -105,7 +105,6 @@
         <button class="mdl-snackbar__action" type="button"></button>
     </div>
 
-</body>
 
 <script>
 
@@ -145,7 +144,7 @@
                 sendJSON["quality"] = "low";
                 {% endif %}
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/downloads", true);
+                xhr.open("POST", "https://yt.rowley.space/downloads", true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.send(JSON.stringify(sendJSON));
 
@@ -155,7 +154,13 @@
                         fetch("/files/" + result["video_url"])
                             .then(resp => resp.blob())
                             .then(blob => {
-                                const url = window.URL.createObjectURL(blob);
+                                var url = window.URL.createObjectURL(blob);
+                                if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                                    var fileName = escapeHtml(result["filename"]);
+                                    window.navigator.msSaveOrOpenBlob(blob, fileName);
+                                } else {
+                                    var url = URL.createObjectURL(blob);
+                                }
                                 const a = document.createElement('a');
                                 a.style.display = 'none';
                                 a.href = url;
@@ -196,5 +201,5 @@
         );
     }
 </script>
-
+</body>
 </html>
