@@ -75,7 +75,7 @@
             </label>
             {% endif %}
             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="mp3">
-                <input type="checkbox" id="mp3" class="mdl-checkbox__label"  value="mp3">
+                <input type="checkbox" id="mp3" class="mdl-checkbox__label">
                 <span class="mdl-checkbox__label">Audio Only (mp3)</span>
             </label>
             <br>
@@ -146,6 +146,7 @@
                 {% endif %}
                 if (document.getElementById("mp3").checked === true){
                     sendJSON["quality"] = "mp3";
+                }
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "https://yt.rowley.space/downloads", true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
