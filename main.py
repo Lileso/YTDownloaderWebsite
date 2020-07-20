@@ -92,7 +92,7 @@ def download_audio_only(url):
         aud.download('static/')
         try:
             out, err = (ffmpeg
-            .input(audio_input)
+            .input("static/"+audio_input)
             .output(vid, format='mp3', acodec='libmp3lame', ac=2)
             .overwrite_output()
             .run(capture_stdout=True, capture_stderr=True)
