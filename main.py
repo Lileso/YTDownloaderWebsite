@@ -97,6 +97,7 @@ def download_audio_only(url):
             .overwrite_output()
             .run(capture_stdout=True, capture_stderr=True)
             )
+            os.remove(f'/etc/youtubedl/YTDownloaderWebsite/static/{audio_input}')   
         except ffmpeg.Error as e:
             print(e.stderr)
         query = 'INSERT INTO videos (id, name, del) VALUES (?, ?, "false");'
