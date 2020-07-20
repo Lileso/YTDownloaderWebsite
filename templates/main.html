@@ -74,9 +74,9 @@
                 <span class="mdl-radio__label">High Quality (???, Slowest)</span>
             </label>
             {% endif %}
-            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="mp3">
-                <input type="radio" id="mp3" class="mdl-radio__button" name="options" value="mp3">
-                <span class="mdl-radio__label">Audio Only (mp3)</span>
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="mp3">
+                <input type="checkbox" id="mp3" class="mdl-checkbox__label"  value="mp3">
+                <span class="mdl-checkbox__label">Audio Only (mp3)</span>
             </label>
             <br>
             <br>
@@ -144,6 +144,8 @@
                 {% else %}
                 sendJSON["quality"] = "low";
                 {% endif %}
+                if (document.getElementById("mp3").checked === true){
+                    sendJSON["quality"] = "mp3";
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "https://yt.rowley.space/downloads", true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
