@@ -1,0 +1,5 @@
+flask
+ffmpeg
+pafy
+waitress
+youtube_dl
